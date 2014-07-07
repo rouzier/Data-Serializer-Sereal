@@ -1,5 +1,9 @@
 Revision history for Data-Serializer-Sereal
 
+1.01    2014-07-7 12:51
+        Added Sereal and Data::Serializer as dependencies
+        Added git repo for Metadata 
+
 1.00    2014-07-7 12:00
         First version, released on an unsuspecting world.
 
