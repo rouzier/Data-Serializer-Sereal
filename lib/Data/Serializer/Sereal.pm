@@ -12,11 +12,11 @@ Data::Serializer::Sereal - Creates bridge between Data::Serializer and Sereal
 
 =head1 VERSION
 
-Version 1.00
+Version 1.02
 
 =cut
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 our $ENCODER = Sereal::Encoder->new();
 our $DECODER = Sereal::Decoder->new();
@@ -46,7 +46,8 @@ deserialize object/data
 =cut
 
 sub deserialize {
-    my ($self, $object) = @_;
+    my ($self) = @_;
+    my $object;
     sereal_decode_with_object($self->decoder, $_[1], $object);
     return $object;
 }
@@ -59,7 +60,7 @@ gets the decoder from options or uses the default decoder
 
 sub decoder {
     my ($self) = @_;
-    return $self->{options}{decoder} ||= $DECODER;
+    return $self->{options}{decoder} || $DECODER;
 }
 
 =head2 encoder
@@ -70,7 +71,7 @@ gets the encoder from options or uses the default encoder
 
 sub encoder {
     my ($self) = @_;
-    return $self->{options}{encoder} ||= $ENCODER;
+    return $self->{options}{encoder} || $ENCODER;
 }
 
 =head1 AUTHOR

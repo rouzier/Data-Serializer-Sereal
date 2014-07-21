@@ -1,5 +1,9 @@
 Revision history for Data-Serializer-Sereal
 
+1.02    2014-07-17 22:12
+        Issue with Sereal encoder/decoder not being properly extracted from options
+        updated tests
+
 1.01    2014-07-7 12:51
         Added Sereal and Data::Serializer as dependencies
         Added git repo for Metadata 
