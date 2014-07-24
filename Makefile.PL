@@ -13,7 +13,8 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
-        'Sereal' => 0,
+        'Sereal::Decoder' => 0,
+        'Sereal::Encoder' => 0,
         'Data::Serializer' => 0,
     },
     META_MERGE => {

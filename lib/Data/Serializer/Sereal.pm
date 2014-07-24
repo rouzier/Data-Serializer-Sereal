@@ -3,8 +3,8 @@ package Data::Serializer::Sereal;
 use strict;
 use warnings;
 use base qw(Data::Serializer);
-use Sereal qw(sereal_encode_with_object
-                sereal_decode_with_object);
+use Sereal::Encoder qw(sereal_encode_with_object);
+use Sereal::Decoder qw(sereal_decode_with_object);
 
 =head1 NAME
 
@@ -12,11 +12,11 @@ Data::Serializer::Sereal - Creates bridge between Data::Serializer and Sereal
 
 =head1 VERSION
 
-Version 1.02
+Version 1.03
 
 =cut
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 our $ENCODER = Sereal::Encoder->new();
 our $DECODER = Sereal::Decoder->new();
