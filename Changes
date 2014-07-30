@@ -1,4 +1,7 @@
 Revision history for Data-Serializer-Sereal
+1.04    2014-07-30 16:27
+        If the default global ENCODER/DECODER are undef the reset them 
+        Add thread support
 
 1.03    2014-07-24 15:34
         Removed Sereal as a dependency
