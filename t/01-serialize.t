@@ -10,6 +10,7 @@
 
 =cut
 
+use threads;
 use strict;
 use warnings;
 
@@ -36,18 +37,19 @@ my $serializer_options = Data::Serializer->new( serializer => 'Sereal', options 
 
 is_deeply(\%object,$serializer_options->deserialize($serializer_options->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder");
 
-use threads;
 
-threads->create(
+my $thr = threads->create(
     {'context' => 'list'},
     sub {
+        is_deeply(\%object,$serializer_default->deserialize($serializer_default->serialize(\%object)),"Serialization/Deserialize using default encoder/decoder in a thread after cloning");
 
-        is_deeply(\%object,$serializer_default->deserialize($serializer_default->serialize(\%object)),"Serialization/Deserialize using default encoder/decoder");
-
-        is_deeply(\%object,$serializer_options->deserialize($serializer_options->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder");
+        is_deeply(\%object,$serializer_options->deserialize($serializer_options->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder in a thread after cloning");
 
     }
-)->join();
+);
+
+
+$thr->join();
 
 =head1 AUTHOR
 
