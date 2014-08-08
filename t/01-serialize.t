@@ -13,13 +13,13 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;                      # last test to print
+use Test::More tests => 5;                      # last test to print
 
 use Test::NoWarnings;
 
 use Data::Serializer;
 
-my $serializer = Data::Serializer->new( serializer => 'Sereal'),
+my $serializer_default = Data::Serializer->new( serializer => 'Sereal'),
 
 my %object = (
     a => [0 .. 100],
@@ -30,13 +30,25 @@ my %object = (
     }
 );
 
-is_deeply(\%object,$serializer->deserialize($serializer->serialize(\%object)),"Serialization/Deserialize using default encoder/decoder");
+is_deeply(\%object,$serializer_default->deserialize($serializer_default->serialize(\%object)),"Serialization/Deserialize using default encoder/decoder");
 
-$serializer = Data::Serializer->new( serializer => 'Sereal', options => { encoder => Sereal::Encoder->new,decoder => Sereal::Decoder->new} );
+my $serializer_options = Data::Serializer->new( serializer => 'Sereal', options => { encoder => Sereal::Encoder->new,decoder => Sereal::Decoder->new} );
 
-is_deeply(\%object,$serializer->deserialize($serializer->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder");
+is_deeply(\%object,$serializer_options->deserialize($serializer_options->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder");
 
- 
+use threads;
+
+threads->create(
+    {'context' => 'list'},
+    sub {
+
+        is_deeply(\%object,$serializer_default->deserialize($serializer_default->serialize(\%object)),"Serialization/Deserialize using default encoder/decoder");
+
+        is_deeply(\%object,$serializer_options->deserialize($serializer_options->serialize(\%object)),"Serialization/Deserialize using provided encoder/decoder");
+
+    }
+)->join();
+
 =head1 AUTHOR
 
 James Rouzier, C<< <rouzier at gmail.com> >>
