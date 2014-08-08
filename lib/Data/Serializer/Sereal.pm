@@ -18,8 +18,8 @@ Version 1.03
 
 our $VERSION = '1.04';
 
-our $ENCODER = Sereal::Encoder->new();
-our $DECODER = Sereal::Decoder->new();
+our $ENCODER;
+our $DECODER;
 
 
 =head1 SYNOPSIS
@@ -60,7 +60,9 @@ gets the decoder from options or uses the default decoder
 
 sub decoder {
     my ($self) = @_;
-    return $self->{options}{decoder} || ($DECODER ||= Sereal::Decoder->new());
+    my $decoder = $self->{options}{decoder};
+    return $decoder if ref($decoder) eq 'Sereal::Decoder';
+    return $DECODER ||= Sereal::Decoder->new();
 }
 
 =head2 encoder
@@ -71,7 +73,9 @@ gets the encoder from options or uses the default encoder
 
 sub encoder {
     my ($self) = @_;
-    return $self->{options}{encoder} || ($ENCODER ||= Sereal::Encoder->new());
+    my $encoder = $self->{options}{encoder};
+    return $encoder if ref($encoder) eq 'Sereal::Encoder';
+    return $ENCODER ||= Sereal::Encoder->new();
 }
 
 =head2
@@ -81,8 +85,8 @@ Recreates global ENCODER/DECODER after thread is created
 =cut
 
 sub CLONE {
-    $ENCODER ||= Sereal::Encoder->new();
-    $DECODER ||= Sereal::Decoder->new();
+    $ENCODER = undef;
+    $DECODER = undef;
 }
 
 =head1 AUTHOR
