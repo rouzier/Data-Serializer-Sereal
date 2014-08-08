@@ -1,4 +1,9 @@
 Revision history for Data-Serializer-Sereal
+1.05    2014-08-08 16:27
+        Do not initialize the global ENCODER/DECODER
+        Verify if the provided encoder/decoder are valid before using it
+        Added test for thread support
+
 1.04    2014-07-30 16:27
         If the default global ENCODER/DECODER are undef the reset them 
         Add thread support
